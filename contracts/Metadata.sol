@@ -1,31 +1,53 @@
 //SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.0;
 
-// import "base64-sol/base64.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
-import "./DoAW.sol";
 
 /// @title DoAW Metadata
 /// @notice https://doaw.folia.app
 /// @author @okwme
-/// @dev The updateable and replaceable metadata contract for DoAW
+/// @dev The updateable and replaceable metadata contract for DoAW and DoAWegg
 
 contract Metadata is Ownable {
-  constructor() {}
+    constructor() {}
 
-  string public baseURI = "https://doaw.folia.app/v1/metadata/";
+    string public baseURI = "https://doaw.folia.app/v1/metadata/";
+    string public secondBasURI = "https://doaw-egg.folia.app/v1/metadata/";
 
-  /// @dev sets the baseURI can only be called by the owner
-  /// @param baseURI_ the new baseURI
-  function setbaseURI(string memory baseURI_) public onlyOwner {
-    baseURI = baseURI_;
-  }
+    /// @dev sets the baseURI can only be called by the owner
+    /// @param baseURI_ the new baseURI
+    function setbaseURI(string memory baseURI_) public onlyOwner {
+        baseURI = baseURI_;
+    }
 
-  /// @dev generates the metadata
-  /// @param tokenId the tokenId
-  /// @return _ the metadata
-  function getMetadata(uint256 tokenId) public view returns (string memory) {
-    return string(abi.encodePacked(baseURI, Strings.toString(tokenId)));
-  }
+    /**
+     * @dev Sets the second base URI for metadata.
+     * @param secondBaseURI_ The new second base URI.
+     * Only the contract owner can call this function.
+     */
+    function setSecondBaseURI(string memory secondBaseURI_) public onlyOwner {
+        secondBasURI = secondBaseURI_;
+    }
+
+    /**
+     * @dev Generates the metadata for a given token ID.
+     * @param tokenId The ID of the token.
+     * @return The metadata as a string.
+     */
+    function getMetadata(uint256 tokenId) public view returns (string memory) {
+        return string(abi.encodePacked(baseURI, Strings.toString(tokenId)));
+    }
+
+    /**
+     * @dev Retrieves the second metadata for a given token ID.
+     * @param tokenId The ID of the token.
+     * @return The second metadata as a string.
+     */
+    function getSecondMetadata(
+        uint256 tokenId
+    ) public view returns (string memory) {
+        return
+            string(abi.encodePacked(secondBasURI, Strings.toString(tokenId)));
+    }
 }

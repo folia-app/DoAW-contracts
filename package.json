@@ -12,6 +12,7 @@
     "test": "hardhat test"
   },
   "dependencies": {
+    "erc721a": "^4.2.3"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "*",
@@ -19,8 +20,6 @@
     "@nomiclabs/hardhat-ganache": "*",
     "@nomiclabs/hardhat-waffle": "*",
     "@openzeppelin/contracts": "^4.6.0",
-    "ba64": "*",
-    "base64-sol": "*",
     "chai": "*",
     "dotenv": "^16.0.1",
     "eslint": "^8.26.0",
@@ -29,9 +28,6 @@
     "hardhat": "*",
     "hardhat-contract-sizer": "*",
     "hardhat-gas-reporter": "*",
-    "merkletreejs": "^0.3.10",
-    "solady": "^0.0.54",
-    "solc": "^0.8.15",
-    "solidity-bytes-utils": "*"
+    "merkletreejs": "^0.3.10"
   }
 }

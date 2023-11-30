@@ -59,9 +59,12 @@ const initContracts = async () => {
   const ABIMetadata = JSON.parse(await readData(await getPathABI("Metadata")))["abi"];
   let metadata = new ethers.Contract(addressMetadata, ABIMetadata, owner);
 
-  return { doaw, metadata };
-};
+  const addressDoAWegg = JSON.parse(await readData(await getPathAddress("DoAWegg")))["address"];
+  const ABIDoAWegg = JSON.parse(await readData(await getPathABI("DoAWegg")))["abi"];
+  let doawEgg = new ethers.Contract(addressDoAWegg, ABIDoAWegg, owner);
 
+  return { doaw, metadata, doawEgg };
+};
 
 const decodeUri = (decodedJson) => {
   const metaWithoutDataURL = decodedJson.substring(decodedJson.indexOf(",") + 1);
@@ -69,9 +72,6 @@ const decodeUri = (decodedJson) => {
   let text = buff.toString("ascii");
   return text;
 };
-
-
-
 
 const deployContracts = async () => {
   var networkinfo = await hre.ethers.provider.getNetwork();
@@ -92,6 +92,15 @@ const deployContracts = async () => {
   await doaw.deployed();
   var doawAddress = doaw.address;
   log("DoAW Deployed at " + String(doawAddress) + ` with metadata ${metadataAddress} and splitter ${splitterAddress}`);
+
+
+  // deploy DoAWegg
+  const DoAWegg = await ethers.getContractFactory("DoAWegg");
+  const doawEgg = await DoAWegg.deploy(metadataAddress);
+  await doawEgg.deployed();
+  var doawEggAddress = doawEgg.address;
+  log("DoAWegg Deployed at " + String(doawEggAddress) + ` with metadata ${metadataAddress}`);
+
 
   let reEntry
   // deploy reEntry contract for testing
@@ -132,9 +141,22 @@ const deployContracts = async () => {
       log({ e })
     }
 
+
+    // log(`Waiting for ${blocksToWaitBeforeVerify} blocks before verifying`)
+    await doaw.deployTransaction.wait(blocksToWaitBeforeVerify);
+    log("Verifying DoAWegg Contract");
+    try {
+      await hre.run("verify:verify", {
+        address: doawEggAddress,
+        constructorArguments: [metadataAddress],
+      });
+    } catch (e) {
+      log({ e })
+    }
+
   }
 
-  return { doaw, metadata, reEntry };
+  return { doaw, doawEgg, metadata, reEntry };
 };
 
 const log = (message) => {
@@ -142,6 +164,12 @@ const log = (message) => {
   printLogs && console.log(message)
 }
 
+
+function randomHexadecimalAddress() {
+  // random hexadecimal number 40 characters long
+  const hex = [...Array(40)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+  return '0x' + hex;
+}
 module.exports = {
   decodeUri,
   initContracts,
@@ -150,6 +178,7 @@ module.exports = {
   getPathAddress,
   readData,
   testJson,
+  randomHexadecimalAddress,
   correctPrice,
   maxSupply,
   splitterAddress

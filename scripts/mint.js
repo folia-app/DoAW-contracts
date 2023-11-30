@@ -1,14 +1,17 @@
-const { initContracts, correctPrice } = require("./utils");
+const { randomHexadecimalAddress, initContracts, correctPrice } = require("./utils");
 
 async function main() {
   const [owner] = await hre.ethers.getSigners();
-  const { doaw } = await initContracts();
-  const num = 21;
-  // for (i = 0; i < num; i++) {
-  // const value = "0"
-  await doaw.adminMint(owner.address, num, { nonce: 521 });
-  // }
+  const { doawEgg } = await initContracts();
+  const num = 100;
+  const addresses = [];
+  for (i = 0; i < num; i++) {
+    const address = randomHexadecimalAddress()
+    addresses.push(address)
+  }
+  await doawEgg.adminMint(addresses);
 }
+
 
 main()
   .then(() => process.exit(0))
