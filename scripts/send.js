@@ -1,11 +1,11 @@
-const { initContracts, correctPrice } = require("./utils");
+const { initContracts, correctPrice } = require('./utils')
 
 
 async function main() {
   // const networkId = await hre.ethers.provider.getNetwork();
   // console.log({ networkId })
-  const [owner] = await hre.ethers.getSigners();
-  const { doaw } = await initContracts();
+  const [owner] = await hre.ethers.getSigners()
+  const { doaw } = await initContracts()
   const targets = [
     '0xA9Ed4c12679f28918cF7F008aD80246E46BF7e52',
     '0xFa398d672936Dcf428116F687244034961545D91',
@@ -27,6 +27,6 @@ async function main() {
 main()
   .then(() => process.exit(0))
   .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+    console.error(error)
+    process.exit(1)
+  })

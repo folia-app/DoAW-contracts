@@ -1,87 +1,87 @@
 // to deploy local
 //npx hardhat node
 //npx hardhat run --network localhost scripts/deploy.js
-const hre = require("hardhat");
-const path = require("node:path");
+const hre = require('hardhat')
+const path = require('node:path')
 
-const fs = require("fs").promises;
+const fs = require('fs').promises
 
-const { deployContracts } = require("./utils");
+const { deployContracts } = require('./utils')
 
 async function writedata(path, data) {
   // await fs.writeFile(path, data, function (err, result) {
   //   if (err) console.log('error', err);
   // })
   try {
-    names = await fs.writeFile(path, data);
+    await fs.writeFile(path, data)
   } catch (e) {
-    console.log("e", e);
+    console.log('e', e)
   }
 }
 
 async function copyContractABI(a, b) {
   try {
-    write = await fs.copyFile(a, b);
+    await fs.copyFile(a, b)
   } catch (e) {
-    console.log("e", e);
+    console.log('e', e)
   }
 }
 
 async function copyABI(name) {
-  var networkinfo = await hre.ethers.provider.getNetwork();
-  console.log(`--copy ${name} ABI`);
+  var networkinfo = await hre.ethers.provider.getNetwork()
+  console.log(`--copy ${name} ABI`)
   var pathname = path.join(
     __dirname,
-    "..",
-    "artifacts",
-    "contracts",
+    '..',
+    'artifacts',
+    'contracts',
     `${name}.sol`,
     `${name}.json`
-  );
+  )
   var copy = path.join(
     __dirname,
-    "..",
-    "contractMetadata",
-    "ABI-" + String(networkinfo["name"]) + `-${name}.json`
-  );
-  await copyContractABI(pathname, copy);
-  console.log("-- OK");
+    '..',
+    'contractMetadata',
+    'ABI-' + String(networkinfo['name']) + `-${name}.json`
+  )
+  await copyContractABI(pathname, copy)
+  console.log('-- OK')
 }
 
 async function saveAddress(contract, name) {
-  console.log("-save json for " + name);
-  var networkinfo = await hre.ethers.provider.getNetwork();
-  var newAddress = await contract.address;
+  console.log('-save json for ' + name)
+  var networkinfo = await hre.ethers.provider.getNetwork()
+  var newAddress = await contract.address
   var savePath = path.join(
     __dirname,
-    "..",
-    "contractMetadata",
-    String(networkinfo["name"]) + "-" + String(name) + ".json"
-  );
+    '..',
+    'contractMetadata',
+    String(networkinfo['name']) + '-' + String(name) + '.json'
+  )
   var objToWrite = {
     address: newAddress,
     chain: networkinfo,
-  };
-  await writedata(savePath, JSON.stringify(objToWrite));
+  }
+  await writedata(savePath, JSON.stringify(objToWrite))
 }
 
 async function main() {
-  console.log("Deploy to chain:");
-  console.log(await hre.ethers.provider.getNetwork());
-  const { doaw, metadata, doawEgg } = await deployContracts();
-  await copyABI("DoAW");
-  await copyABI("DoAWegg");
-  await copyABI("Metadata");
-  await saveAddress(doaw, "DoAW");
-  await saveAddress(doawEgg, "DoAWegg");
-  await saveAddress(metadata, "Metadata");
+  console.log('Deploy to chain:')
+  console.log(await hre.ethers.provider.getNetwork())
+  const { doaw, metadata, doawEgg } = await deployContracts()
+  await copyABI('DoAW')
+  await copyABI('DoAWEgg')
+  await copyABI('Metadata')
+  await saveAddress(doaw, 'DoAW')
+  await saveAddress(doawEgg, 'DoAWEgg')
+  await saveAddress(metadata, 'Metadata')
 }
 
 main()
   .then(() => process.exit(0))
   .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+    console.error(error)
+    process.exit(1)
+  })
 
-module.exports = { deployContracts };
+module.exports = { deployContracts }

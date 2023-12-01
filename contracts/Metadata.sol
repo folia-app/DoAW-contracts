@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 /// @title DoAW Metadata
 /// @notice https://doaw.folia.app
 /// @author @okwme
-/// @dev The updateable and replaceable metadata contract for DoAW and DoAWegg
+/// @dev The updateable and replaceable metadata contract for DoAW and DoAWEgg
 
 contract Metadata is Ownable {
     constructor() {}

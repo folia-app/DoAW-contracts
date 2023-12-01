@@ -6,6 +6,7 @@
   "author": "Joan Heemskerk (@johee) and Billy Rennekamp (@okwme)",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint . --fix",
     "build": "npx webpack --mode development",
     "chain": "ganache-cli -m 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat'",
     "deploy": "hardhat run scripts/deploy.js",
@@ -29,5 +30,39 @@
     "hardhat-contract-sizer": "*",
     "hardhat-gas-reporter": "*",
     "merkletreejs": "^0.3.10"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "browser": true,
+      "node": true,
+      "amd": true,
+      "es2020": true
+    },
+    "extends": [
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "@babel/eslint-parser",
+      "ecmaVersion": 12,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "modules": true
+      }
+    },
+    "globals": {
+      "it": "readonly",
+      "assert": "readonly",
+      "describe": "readonly",
+      "before": "readonly",
+      "ethers": "readonly",
+      "hre": "readonly"
+    },
+    "rules": {
+      "indent": ["error", 2],
+      "linebreak-style": ["error", "unix"],
+      "quotes": ["error", "single"],
+      "semi": ["error", "never"]
+    }
   }
 }

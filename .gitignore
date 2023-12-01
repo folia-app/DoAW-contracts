@@ -23,6 +23,8 @@ out/
 *.swp
 .DS_Store
 Thumbs.db
+metadata/*
+wallets.json
 
 *.html
 *.gif

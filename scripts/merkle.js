@@ -1,11 +1,11 @@
-const { initContracts, merkleAddresses } = require("./utils");
+const { initContracts, merkleAddresses } = require('./utils')
 const { ethers } = require('ethers')
 const { MerkleTree } = require('merkletreejs')
 
 async function main() {
-  const [owner, addr1] = await hre.ethers.getSigners();
+  const [owner, addr1] = await hre.ethers.getSigners()
   const billy = '0xFa398d672936Dcf428116F687244034961545D91'
-  const { doaw } = await initContracts();
+  const { doaw } = await initContracts()
 
   // const realTree = new MerkleTree(
   //   merkleAddresses.map(ethers.utils.keccak256),
@@ -21,8 +21,8 @@ async function main() {
     addresses.map(ethers.utils.keccak256),
     ethers.utils.keccak256,
     { sortPairs: true },
-  );
-  const fakeTreeRoot = "0x" + fakeTree.getRoot().toString('hex')
+  )
+  const fakeTreeRoot = '0x' + fakeTree.getRoot().toString('hex')
 
 
   await doaw.setMerkleRoot(fakeTreeRoot)
@@ -32,6 +32,6 @@ async function main() {
 main()
   .then(() => process.exit(0))
   .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+    console.error(error)
+    process.exit(1)
+  })

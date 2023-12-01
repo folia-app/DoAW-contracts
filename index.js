@@ -1,15 +1,15 @@
 
 // TODO: change all of this before mainnet
 
-const DoAWABI = require("./contractMetadata/ABI-sepolia-DoAW.json"); // TODO: change before mainnet
+const DoAWABI = require('./contractMetadata/ABI-sepolia-DoAW.json') // TODO: change before mainnet
 // const DoAW = require("./contractMetadata/homestead-DoAW.json");
-const DoAWSepolia = require("./contractMetadata/sepolia-DoAW.json");
+const DoAWSepolia = require('./contractMetadata/sepolia-DoAW.json')
 
-const MetadataABI = require("./contractMetadata/ABI-sepolia-Metadata.json"); // TODO: change before mainnet
+const MetadataABI = require('./contractMetadata/ABI-sepolia-Metadata.json') // TODO: change before mainnet
 // const Metadata = require("./contractMetadata/homestead-Metadata.json");
-const MetadataSepolia = require("./contractMetadata/sepolia-Metadata.json");
+const MetadataSepolia = require('./contractMetadata/sepolia-Metadata.json')
 
-const { merkleAddresses } = require("./merkleAddresses.js");
+const { merkleAddresses } = require('./merkleAddresses.js')
 
 module.exports = {
   merkleAddresses,

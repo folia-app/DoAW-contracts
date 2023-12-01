@@ -1,8 +1,8 @@
-require("@nomiclabs/hardhat-waffle");
-require("hardhat-gas-reporter");
-require("hardhat-contract-sizer");
-require("dotenv").config();
-require("@nomiclabs/hardhat-etherscan");
+require('@nomiclabs/hardhat-waffle')
+require('hardhat-gas-reporter')
+require('hardhat-contract-sizer')
+require('dotenv').config()
+require('@nomiclabs/hardhat-etherscan')
 
 
 //require("@nomiclabs/hardhat-ganache");
@@ -30,12 +30,12 @@ module.exports = {
       // gasPrice: 20_000_000_000
     },
     localhost: {
-      url: "http://127.0.0.1:8545",
-      accounts: { mnemonic: "candy maple cake sugar pudding cream honey rich smooth crumble sweet treat" }
+      url: 'http://127.0.0.1:8545',
+      accounts: { mnemonic: 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat' }
     },
     optimistic: {
-      url: "http://127.0.0.1:8545",
-      accounts: { mnemonic: "test test test test test test test test test test test junk" },
+      url: 'http://127.0.0.1:8545',
+      accounts: { mnemonic: 'test test test test test test test test test test test junk' },
     },
     rinkeby: {
       url: 'https://rinkeby.infura.io/v3/' + process.env.INFURA_API_KEY,
@@ -47,11 +47,11 @@ module.exports = {
       gas: 5000000,
     },
     optimismkovan: {
-      url: "https://kovan.optimism.io",
+      url: 'https://kovan.optimism.io',
       accounts: { mnemonic: process.env.deploymentKey },
     },
     optimismgoerli: {
-      url: "https://opt-goerli.g.alchemy.com/v2/AABlV686HfIY7zb97aYZCx9uUDCb2m_R",
+      url: 'https://opt-goerli.g.alchemy.com/v2/AABlV686HfIY7zb97aYZCx9uUDCb2m_R',
       accounts: { mnemonic: process.env.deploymentKey },
     },
     goerli: {
@@ -71,10 +71,10 @@ module.exports = {
     },
   },
   gasReporter: {
-    currency: "EUR",
+    currency: 'EUR',
     gasPrice: 42,
-    url: "http://localhost:8545",
-    coinmarketcap: "38b60711-0559-45f4-8bda-e72f446c8278",
+    url: 'http://localhost:8545',
+    coinmarketcap: '38b60711-0559-45f4-8bda-e72f446c8278',
     enabled: true,
   },
   etherscan: {
@@ -84,11 +84,11 @@ module.exports = {
 
     customChains: [
       {
-        network: "optimismgoerli",
+        network: 'optimismgoerli',
         chainId: 420,
         urls: {
-          apiURL: "https://blockscout.com/optimism/goerli/api",
-          browserURL: "https://blockscout.com/optimism/goerli",
+          apiURL: 'https://blockscout.com/optimism/goerli/api',
+          browserURL: 'https://blockscout.com/optimism/goerli',
         },
       },
       // {
@@ -120,7 +120,7 @@ module.exports = {
   solidity: {
     compilers: [
       {
-        version: "0.8.15",
+        version: '0.8.15',
         settings: {
           viaIR: false,
           optimizer: { enabled: true, runs: 200 },
@@ -128,6 +128,6 @@ module.exports = {
       },
     ],
   },
-};
+}
 
 //version: "0.8.4",
