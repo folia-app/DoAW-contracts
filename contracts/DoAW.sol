@@ -155,12 +155,16 @@ contract DoAW is ERC721Enumerable, Ownable, ERC2981, ReentrancyGuard {
         entropy = new uint256[](quantity); // Initialize the entropy array with the specified quantity
         for (uint i = 0; i < quantity; i++) {
             entropy[i] = uint256(
-                keccak256(
-                    abi.encodePacked(
-                        block.timestamp,
-                        block.difficulty,
-                        msg.sender,
-                        i
+                uint128(
+                    uint256(
+                        keccak256(
+                            abi.encodePacked(
+                                block.timestamp,
+                                block.difficulty,
+                                msg.sender,
+                                i
+                            )
+                        )
                     )
                 )
             );

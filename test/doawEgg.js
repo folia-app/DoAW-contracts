@@ -84,17 +84,31 @@ describe('DoAWEgg Tests', function () {
     expect(totalSupply).to.equal(num)
   })
 
-  it.only('adminMints a lot of addresses #2', async function () {
+  it('adminMints a lot of addresses #2', async function () {
     const { doawEgg } = await deployContracts()
+    const [owner, acct1] = await ethers.getSigners()
     const num = 500
-    const addresses = []
+    const addresses = [owner.address]
     for (let i = 0; i < num; i++) {
       const address = randomHexadecimalAddress()
       addresses.push(address)
     }
-    expect(await doawEgg.adminMint(addresses)).to.not.be.reverted
-    const totalSupply = await doawEgg.totalSupply()
-    expect(totalSupply).to.equal(num)
+    const tx = await doawEgg.adminMint(addresses) // 4 eur per mint at 42 gwei
+    console.log({ tx })
+    expect(tx).to.not.be.reverted
+    console.log({ tx })
+    tx.wait()
+    console.log({ tx })
+
+    const actualAmountOfGasUsed = tx.gasUsed
+    console.log({ actualAmountOfGasUsed })
+
+
+    const tx2 = doawEgg.transferFrom(owner.address, acct1.address, 1)
+    expect(await tx2).to.not.be.reverted
+
+    // const totalSupply = await doawEgg.totalSupply()
+    // expect(totalSupply).to.equal(num)
   })
 
 })

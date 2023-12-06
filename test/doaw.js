@@ -585,6 +585,14 @@ describe('DoAW Tests', function () {
 
   })
 
+  it.only('makes entropy correctly', async function () {
+    const { doaw } = await deployContracts()
+    const entropy = await doaw.makeEntropy(1)
+    const mnemonic = ethers.utils.entropyToMnemonic(entropy[0])
+    ethers.utils.HDNode.fromMnemonic(mnemonic)
+    // expect(BigInt(entropy[0]).toString(2).length).to.equal(128)
+    expect(mnemonic.split(' ').length).to.equal(12)
+  })
 
 
   it('correctly allows minting after start time', async function () {
