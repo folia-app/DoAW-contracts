@@ -59,11 +59,11 @@ const initContracts = async () => {
   const ABIMetadata = JSON.parse(await readData(await getPathABI('Metadata')))['abi']
   let metadata = new ethers.Contract(addressMetadata, ABIMetadata, owner)
 
-  // const addressDoAWEgg = JSON.parse(await readData(await getPathAddress("DoAWEgg")))["address"];
-  // const ABIDoAWEgg = JSON.parse(await readData(await getPathABI("DoAWEgg")))["abi"];
-  // let doawEgg = new ethers.Contract(addressDoAWEgg, ABIDoAWEgg, owner);
+  const addressDoAWEgg = JSON.parse(await readData(await getPathAddress('DoAWEgg')))['address']
+  const ABIDoAWEgg = JSON.parse(await readData(await getPathABI('DoAWEgg')))['abi']
+  let doawEgg = new ethers.Contract(addressDoAWEgg, ABIDoAWEgg, owner)
 
-  return { doaw, metadata }
+  return { doaw, metadata, doawEgg }
 }
 
 const decodeUri = (decodedJson) => {
