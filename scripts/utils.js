@@ -4,9 +4,9 @@ const hre = require('hardhat')
 const path = require('node:path')
 const fs = require('fs').promises
 
-const correctPrice = ethers.utils.parseEther('0.001') // TODO: change before mainnet 
-const splitterAddress = '0x69Bff8f9292e3D2b436A66D9F2226986aB16ABCF' // TODO: change before mainnet
-const maxSupply = 99 // TODO: change before mainnet
+const correctPrice = ethers.utils.parseEther('0.055555555555555555')
+const splitterAddress = '0xcd2941f651D0fE9a74461A0fCE28a883fF957be1'
+const maxSupply = 1024
 
 const testJson = (tJson) => {
   try {
@@ -59,11 +59,11 @@ const initContracts = async () => {
   const ABIMetadata = JSON.parse(await readData(await getPathABI('Metadata')))['abi']
   let metadata = new ethers.Contract(addressMetadata, ABIMetadata, owner)
 
-  const addressDoAWEgg = JSON.parse(await readData(await getPathAddress('DoAWEgg')))['address']
-  const ABIDoAWEgg = JSON.parse(await readData(await getPathABI('DoAWEgg')))['abi']
-  let doawEgg = new ethers.Contract(addressDoAWEgg, ABIDoAWEgg, owner)
+  const addressshaDoAW = JSON.parse(await readData(await getPathAddress('shaDoAW')))['address']
+  const ABIshaDoAW = JSON.parse(await readData(await getPathABI('shaDoAW')))['abi']
+  let shadoaw = new ethers.Contract(addressshaDoAW, ABIshaDoAW, owner)
 
-  return { doaw, metadata, doawEgg }
+  return { doaw, metadata, shadoaw }
 }
 
 const decodeUri = (decodedJson) => {
@@ -92,12 +92,12 @@ const deployContracts = async () => {
   log('DoAW Deployed at ' + String(doawAddress) + ` with metadata ${metadataAddress} and splitter ${splitterAddress}`)
 
 
-  // deploy DoAWEgg
-  const DoAWEgg = await ethers.getContractFactory('DoAWEgg')
-  const doawEgg = await DoAWEgg.deploy(metadataAddress)
-  await doawEgg.deployed()
-  var doawEggAddress = doawEgg.address
-  log('DoAWEgg Deployed at ' + String(doawEggAddress) + ` with metadata ${metadataAddress}`)
+  // deploy shaDoAW
+  const shaDoAW = await ethers.getContractFactory('shaDoAW')
+  const shadoaw = await shaDoAW.deploy(metadataAddress)
+  await shadoaw.deployed()
+  var shadoawAddress = shadoaw.address
+  log('shaDoAW Deployed at ' + String(shadoawAddress) + ` with metadata ${metadataAddress}`)
 
 
   let reEntry
@@ -142,10 +142,10 @@ const deployContracts = async () => {
 
     // log(`Waiting for ${blocksToWaitBeforeVerify} blocks before verifying`)
     await doaw.deployTransaction.wait(blocksToWaitBeforeVerify)
-    log('Verifying DoAWEgg Contract')
+    log('Verifying shaDoAW Contract')
     try {
       await hre.run('verify:verify', {
-        address: doawEggAddress,
+        address: shadoawAddress,
         constructorArguments: [metadataAddress],
       })
     } catch (e) {
@@ -154,7 +154,7 @@ const deployContracts = async () => {
 
   }
 
-  return { doaw, doawEgg, metadata, reEntry }
+  return { doaw, shadoaw, metadata, reEntry }
 }
 
 const log = (message) => {

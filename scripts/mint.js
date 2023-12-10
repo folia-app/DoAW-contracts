@@ -1,14 +1,14 @@
 const { randomHexadecimalAddress, initContracts } = require('./utils')
 
 async function main() {
-  const { doawEgg } = await initContracts()
+  const { shadoaw } = await initContracts()
   const num = 100
   const addresses = []
   for (let i = 0; i < num; i++) {
     const address = randomHexadecimalAddress()
     addresses.push(address)
   }
-  await doawEgg.adminMint(addresses)
+  await shadoaw.adminMint(addresses)
 }
 
 

@@ -2,7 +2,7 @@
 const { initContracts } = require('./utils')
 
 async function main() {
-  const { doawEgg } = await initContracts()
+  const { shadoaw } = await initContracts()
 
   // save wallets to wallets.json
   const fs = require('fs')
@@ -18,14 +18,14 @@ async function main() {
   const recipients = []
   for (let i = 0; i < wallets.length; i++) {
     const wallet = wallets[i]
-    const balance = await doawEgg.balanceOf(wallet.address)
+    const balance = await shadoaw.balanceOf(wallet.address)
     if (balance.eq(0)) {
       recipients.push(wallet.address)
     }
   }
   console.log({ recipients: recipients.length })
 
-  await doawEgg.adminMint(recipients)
+  await shadoaw.adminMint(recipients)
   console.log('Minted')
 }
 

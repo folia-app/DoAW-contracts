@@ -6,10 +6,10 @@ import "erc721a/contracts/extensions/ERC721AQueryable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract DoAWEgg is ERC721AQueryable, Ownable {
+contract shaDoAW is ERC721AQueryable, Ownable {
     address public metadata;
 
-    constructor(address metadata_) ERC721A("DoaWegg", "DoAWEgg") {
+    constructor(address metadata_) ERC721A("DoaWshadoaw", "shaDoAW") {
         metadata = metadata_;
     }
 

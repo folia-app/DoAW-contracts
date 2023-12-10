@@ -68,12 +68,12 @@ async function saveAddress(contract, name) {
 async function main() {
   console.log('Deploy to chain:')
   console.log(await hre.ethers.provider.getNetwork())
-  const { doaw, metadata, doawEgg } = await deployContracts()
+  const { doaw, metadata, shadoaw } = await deployContracts()
   await copyABI('DoAW')
-  await copyABI('DoAWEgg')
+  await copyABI('shaDoAW')
   await copyABI('Metadata')
   await saveAddress(doaw, 'DoAW')
-  await saveAddress(doawEgg, 'DoAWEgg')
+  await saveAddress(shadoaw, 'shaDoAW')
   await saveAddress(metadata, 'Metadata')
 }
 

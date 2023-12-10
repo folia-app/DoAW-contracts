@@ -1,7 +1,7 @@
 {
   "_format": "hh-sol-artifact-1",
-  "contractName": "DoAWEgg",
-  "sourceName": "contracts/DoAWEgg.sol",
+  "contractName": "shaDoAW",
+  "sourceName": "contracts/shaDoAW.sol",
   "abi": [
     {
       "inputs": [

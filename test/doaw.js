@@ -1,8 +1,6 @@
 const { expect } = require('chai')
 const { ethers } = require('hardhat')
 const { deployContracts, correctPrice, maxSupply, splitterAddress } = require('../scripts/utils.js')
-const { MerkleTree } = require('merkletreejs')
-const { merkleAddresses } = require('../merkleAddresses.js')
 
 describe('DoAW Tests', function () {
   this.timeout(50000000)
@@ -16,15 +14,9 @@ describe('DoAW Tests', function () {
     expect(contractSplitterAddress).to.equal(splitterAddress)
 
     const startDate = await doaw.startdate()
-    const actualStartDate = 'Tue Nov 14 2023 18:00:00 GMT+0000'
+    const actualStartDate = 'Tue Dec 12 2023 18:00:00 GMT+0000'
     const actualStartDateInUnixTime = Date.parse(actualStartDate) / 1000
     expect(startDate).to.equal(actualStartDateInUnixTime)
-
-    const premint = await doaw.premint()
-    const actualPremint = 'Tue Nov 14 2023 15:00:00 GMT+0000'
-    const actualPremintInUnixTime = Date.parse(actualPremint) / 1000
-    expect(premint).to.equal(actualPremintInUnixTime)
-
   })
 
   it('onlyOwner functions are really only Owner', async function () {
@@ -49,12 +41,6 @@ describe('DoAW Tests', function () {
     await expect(doaw.connect(addr1).setStartdate(0))
       .to.be.revertedWith('Ownable: caller is not the owner')
 
-    await expect(doaw.connect(addr1).setPremint(0))
-      .to.be.revertedWith('Ownable: caller is not the owner')
-
-    await expect(doaw.connect(addr1).setMerkleRoot('0xcedaa7d5476066e2c0ccb625e3e66e2e88db2ec3bdb457c3bd92faf5913cee0a'))
-      .to.be.revertedWith('Ownable: caller is not the owner')
-
 
     await expect(doaw.setMetadata(addr1.address))
       .to.not.be.reverted
@@ -74,11 +60,6 @@ describe('DoAW Tests', function () {
     await expect(doaw.setStartdate(0))
       .to.not.be.reverted
 
-    await expect(doaw.setPremint(0))
-      .to.not.be.reverted
-
-    await expect(doaw.setMerkleRoot('0xcedaa7d5476066e2c0ccb625e3e66e2e88db2ec3bdb457c3bd92faf5913cee0a'))
-      .to.not.be.reverted
   })
 
   it('has the correct max supply', async function () {
@@ -492,100 +473,7 @@ describe('DoAW Tests', function () {
     expect(spent.toString()).to.equal(correctSpent.toString())
   })
 
-  it.skip('contract contains correct merkle root', async function () {
-    const { doaw } = await deployContracts()
-
-    // last export of merkleAddresses was 486
-    expect(merkleAddresses.length).to.equal(486)
-    const tree = new MerkleTree(
-      merkleAddresses.map(ethers.utils.keccak256),
-      ethers.utils.keccak256,
-      { sortPairs: true },
-    )
-
-    const daowRoot = await doaw.merkleRoot()
-    const treeRoot = '0x' + tree.getRoot().toString('hex')
-    expect(daowRoot).to.equal(treeRoot)
-  })
-
-  it('correctly mints using allowlist created for tests', async function () {
-    const [owner, addr1, addr2] = await ethers.getSigners()
-    const { doaw } = await deployContracts()
-
-    const addresses = [owner.address, addr1.address]
-
-    const tree = new MerkleTree(
-      addresses.map(ethers.utils.keccak256),
-      ethers.utils.keccak256,
-      { sortPairs: true },
-    )
-
-    const newRoot = '0x' + tree.getRoot().toString('hex')
-    await doaw.setMerkleRoot(newRoot)
-
-    const contractRoot = await doaw.merkleRoot()
-    expect(contractRoot).to.equal(newRoot)
-
-    const hashedAddress = ethers.utils.keccak256(owner.address)
-    const hexProof = tree.getHexProof(hashedAddress)
-
-    await doaw.setPrice(0)
-    await doaw.setPause(false)
-    await doaw.setPremint(0)
-
-    await expect(doaw.mintAllowList(1, hexProof))
-      .to.emit(doaw, 'Transfer')
-
-    const balance = await doaw.balanceOf(owner.address)
-    expect(balance).to.equal(1)
-
-    const failHashedAddress = ethers.utils.keccak256(addr2.address)
-    const failHexProof = tree.getHexProof(failHashedAddress)
-    await expect(doaw.connect(addr2).mintAllowList(1, failHexProof))
-      .to.be.revertedWith('You are not on the allowlist')
-  })
-
-  it('correctly mints using allowlist created for tests after premint period', async function () {
-    const [owner, addr1] = await ethers.getSigners()
-    const { doaw } = await deployContracts()
-    await doaw.setPause(false)
-    await doaw.setPrice(0)
-
-    const addresses = [owner.address, addr1.address]
-
-    const tree = new MerkleTree(
-      addresses.map(ethers.utils.keccak256),
-      ethers.utils.keccak256,
-      { sortPairs: true },
-    )
-
-    const newRoot = '0x' + tree.getRoot().toString('hex')
-    await doaw.setMerkleRoot(newRoot)
-
-    const hashedAddress = ethers.utils.keccak256(owner.address)
-    const hexProof = tree.getHexProof(hashedAddress)
-
-    const now = (await ethers.provider.getBlock('latest')).timestamp
-    const oneweek = 604800
-    const premint = now + oneweek
-    await doaw.setPremint(premint)
-
-    const newpremint = await doaw.premint()
-    expect(newpremint).to.equal(premint)
-
-    const timeUntilPremint = premint - now
-    await ethers.provider.send('evm_increaseTime', [timeUntilPremint])
-
-    const tx = doaw.mintAllowList(1, hexProof)
-    await tx
-    const tokenId = await doaw.tokenByIndex(0)
-    await expect(tx)
-      .to.emit(doaw, 'Transfer')
-      .withArgs(ethers.constants.AddressZero, owner.address, tokenId)
-
-  })
-
-  it.only('makes entropy correctly', async function () {
+  it('makes entropy correctly', async function () {
     const { doaw } = await deployContracts()
     const entropy = await doaw.makeEntropy(1)
     const mnemonic = ethers.utils.entropyToMnemonic(entropy[0])
@@ -611,6 +499,35 @@ describe('DoAW Tests', function () {
     await expect(doaw['mint()']()).to.emit(doaw, 'Transfer')
       .to.emit(doaw, 'Transfer')
   })
+
+  it('correctly limits the entropy length even when manually too long', async function () {
+    const { doaw } = await deployContracts()
+    const [owner] = await ethers.getSigners()
+    await doaw.setPrice(0)
+    await doaw.setPause(false)
+    await doaw.setStartdate(0)
+    const entropies = await doaw.makeEntropy(1)
+    const entropy = '123456789' + entropies[0]
+    const blocker = BigInt('0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF')
+    const cutOff = BigInt(entropy) & blocker
+    await doaw.mintWithEntropy(owner.address, entropy)
+    const tokenId = await doaw.tokenByIndex(0)
+    expect(BigInt(tokenId.toString()).toString(2)).to.equal(BigInt(cutOff).toString(2))
+  })
+
+  it('correctly mints a custom entropy', async function () {
+    const { doaw } = await deployContracts()
+    const [owner] = await ethers.getSigners()
+    await doaw.setPrice(0)
+    await doaw.setPause(false)
+    await doaw.setStartdate(0)
+    const entropy = '0x0280500a0140280500a0140280500a01'
+    await doaw.mintWithEntropy(owner.address, entropy)
+    const tokenId = await doaw.tokenByIndex(0)
+    const mnemonic = ethers.utils.entropyToMnemonic(tokenId)
+    expect(mnemonic).to.equal('action action action action action action action action action action action action')
+  })
+
 
   //
   // TransferFrom tests
@@ -640,15 +557,30 @@ describe('DoAW Tests', function () {
     await doaw.setPause(false)
     await doaw.setStartdate(0)
     let counts = []
-    for (let i = 0; i < (maxSupply / 3); i++) {
+    for (let i = 0; i < Math.floor(maxSupply / 3); i++) {
       const signer = signers[i % signers.length]
       await doaw.connect(signer)['mint(uint256)'](3, { value: correctPrice.mul(3) })
       counts[i % signers.length] = counts[i % signers.length] ? counts[i % signers.length] + 3 : 3
     }
+    const leftOver = maxSupply % 3
+
+    for (let i = 0; i < leftOver; i++) {
+      const signer = signers[i % signers.length]
+      await doaw.connect(signer)['mint()']({ value: correctPrice })
+      counts[i % signers.length] = counts[i % signers.length] ? counts[i % signers.length] + 1 : 1
+    }
+
     for (let i = 0; i < signers.length; i++) {
       const signer = signers[i]
       const balance = await doaw.balanceOf(signer.address)
       expect(balance).to.equal(counts[i])
+    }
+    for (let i = 0; i < maxSupply; i++) {
+      const tokenId = await doaw.tokenByIndex(i)
+      const paddedTokenId = ethers.utils.hexZeroPad(tokenId.toHexString(), 16)
+      const mnemonic = ethers.utils.entropyToMnemonic(paddedTokenId)
+      const mnemonicWords = mnemonic.split(' ')
+      expect(mnemonicWords.length).to.equal(12)
     }
   })
 

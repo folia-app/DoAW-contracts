@@ -10,7 +10,10 @@
     "build": "npx webpack --mode development",
     "chain": "ganache-cli -m 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat'",
     "deploy": "hardhat run scripts/deploy.js",
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "generateMetadata": "hardhat run scripts/generateMetadata.js",
+    "shadoaw-step-1": "hardhat run scripts/mintsFromDoAW.js",
+    "shadoaw-step-2": "hardhat run scripts/mintsToshaDoAW.js"
   },
   "dependencies": {
     "erc721a": "^4.2.3"

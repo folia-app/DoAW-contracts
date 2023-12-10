@@ -7,13 +7,13 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 /// @title DoAW Metadata
 /// @notice https://doaw.folia.app
 /// @author @okwme
-/// @dev The updateable and replaceable metadata contract for DoAW and DoAWEgg
+/// @dev The updateable and replaceable metadata contract for DoAW and shaDoAW
 
 contract Metadata is Ownable {
     constructor() {}
 
     string public baseURI = "https://doaw.folia.app/v1/metadata/";
-    string public secondBasURI = "https://doaw-egg.folia.app/v1/metadata/";
+    string public secondBasURI = "https://doaw-shadoaw.folia.app/v1/metadata/";
 
     /// @dev sets the baseURI can only be called by the owner
     /// @param baseURI_ the new baseURI

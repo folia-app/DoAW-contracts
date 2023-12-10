@@ -6,9 +6,9 @@ const DoAWABI = require('./contractMetadata/ABI-sepolia-DoAW.json') // TODO: cha
 const DoAWSepolia = require('./contractMetadata/sepolia-DoAW.json')
 
 
-const DoAWEggABI = require('./contractMetadata/ABI-sepolia-DoAWEgg.json') // TODO: change before mainnet
-// const DoAWEgg = require("./contractMetadata/homestead-DoAWEgg.json");
-const DoAWEggSepolia = require('./contractMetadata/sepolia-DoAWEgg.json')
+const shaDoAWABI = require('./contractMetadata/ABI-sepolia-shaDoAW.json') // TODO: change before mainnet
+// const shaDoAW = require("./contractMetadata/homestead-shaDoAW.json");
+const shaDoAWSepolia = require('./contractMetadata/sepolia-shaDoAW.json')
 
 
 const MetadataABI = require('./contractMetadata/ABI-sepolia-Metadata.json') // TODO: change before mainnet
@@ -29,14 +29,14 @@ module.exports = {
       'sepolia': DoAWSepolia,
     },
   },
-  DoAWEgg: {
-    abi: DoAWEggABI.abi,
+  shaDoAW: {
+    abi: shaDoAWABI.abi,
     networks: {
-      // '1': DoAWEgg,
-      // 'homestead': DoAWEgg,
-      // 'mainnet': DoAWEgg,
-      '11155111': DoAWEggSepolia,
-      'sepolia': DoAWEggSepolia,
+      // '1': shaDoAW,
+      // 'homestead': shaDoAW,
+      // 'mainnet': shaDoAW,
+      '11155111': shaDoAWSepolia,
+      'sepolia': shaDoAWSepolia,
     },
   },
   Metadata: {
