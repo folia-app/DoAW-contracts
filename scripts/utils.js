@@ -76,6 +76,14 @@ const decodeUri = (decodedJson) => {
 const deployContracts = async () => {
   var networkinfo = await hre.ethers.provider.getNetwork()
   const blocksToWaitBeforeVerify = 0
+  // const doawAddress = '0x48F7a3c4aB4B7e629FA1338dEFb456683bF0F3e8'
+  // const shadoawAddress = '0x2Dc05582Fe3CC0264f501BfF075A8843aCe3F1d3'
+  // const metadataAddress = '0x865f2fF4897EFac5294E76209BB76f3F4730336f'
+  // return {
+  //   doaw: { address: doawAddress },
+  //   shadoaw: { address: shadoawAddress },
+  //   metadata: { address: metadataAddress }
+  // }
 
   // deploy Metadata
   const Metadata = await hre.ethers.getContractFactory('Metadata')
@@ -99,22 +107,11 @@ const deployContracts = async () => {
   var shadoawAddress = shadoaw.address
   log('shaDoAW Deployed at ' + String(shadoawAddress) + ` with metadata ${metadataAddress}`)
 
-
-  let reEntry
-  // deploy reEntry contract for testing
-  if (networkinfo['chainId'] == 12345) {
-    const ReEntry = await ethers.getContractFactory('ReEntry')
-    reEntry = await ReEntry.deploy(doawAddress)
-    await reEntry.deployed()
-    // var reEntryAddress = reEntry.address;
-  }
-
-
   // verify contract if network ID is goerli or sepolia
   if (networkinfo['chainId'] == 5 || networkinfo['chainId'] == 1 || networkinfo['chainId'] == 11155111) {
     if (blocksToWaitBeforeVerify > 0) {
       log(`Waiting for ${blocksToWaitBeforeVerify} blocks before verifying`)
-      await doaw.deployTransaction.wait(blocksToWaitBeforeVerify)
+      await shadoaw.deployTransaction.wait(blocksToWaitBeforeVerify)
     }
 
     log('Verifying Metadata Contract')
@@ -141,7 +138,7 @@ const deployContracts = async () => {
 
 
     // log(`Waiting for ${blocksToWaitBeforeVerify} blocks before verifying`)
-    await doaw.deployTransaction.wait(blocksToWaitBeforeVerify)
+    await shadoaw.deployTransaction.wait(blocksToWaitBeforeVerify)
     log('Verifying shaDoAW Contract')
     try {
       await hre.run('verify:verify', {
@@ -154,7 +151,7 @@ const deployContracts = async () => {
 
   }
 
-  return { doaw, shadoaw, metadata, reEntry }
+  return { doaw, shadoaw, metadata }
 }
 
 const log = (message) => {
