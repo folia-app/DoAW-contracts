@@ -1,13 +1,13 @@
 const { expect } = require('chai')
-const { ethers } = require('hardhat')
-const fs = require('fs')
+// const { ethers } = require('hardhat')
+// const fs = require('fs')
 const { deployContracts } = require('../scripts/utils.js')
 
-async function throwError(err) {
-  return new Promise((resolve, reject) => {
-    reject(err)
-  })
-}
+// async function throwError(err) {
+//   return new Promise((resolve, reject) => {
+//     reject(err)
+//   })
+// }
 
 describe('Metadata Tests', function () {
   this.timeout(50000000)

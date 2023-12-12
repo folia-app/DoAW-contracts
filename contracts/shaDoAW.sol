@@ -24,7 +24,12 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 ██████████  ██  ██████  ██  ██████  ██  ██████  ████  ██████  ██  ████████  ██  ██    ██  ██
 ██        ████  ██████  ████        ██        ████████      ████  ████████  ████  ████  ████
 --------------------------------------------------------------------------------------------
+
+shaDoAW
+By Joan Heemskerk
+Presented by Folia.app
 */
+
 /// @title shaDoAW
 /// @notice https://doaw.folia.app
 /// @author @okwme
@@ -33,7 +38,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract shaDoAW is ERC721AQueryable, Ownable {
     address public metadata;
 
-    constructor(address metadata_) ERC721A("DoaWshadoaw", "shaDoAW") {
+    constructor(address metadata_) ERC721A("shaDoaW", "shaDoAW") {
         metadata = metadata_;
     }
 

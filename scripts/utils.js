@@ -76,28 +76,26 @@ const decodeUri = (decodedJson) => {
 const deployContracts = async () => {
   var networkinfo = await hre.ethers.provider.getNetwork()
   const blocksToWaitBeforeVerify = 0
-  // const doawAddress = '0x48F7a3c4aB4B7e629FA1338dEFb456683bF0F3e8'
+  const doawAddress = '0x48c65388452aa9fb2394009c21a477181811b0fd'
   // const shadoawAddress = '0x2Dc05582Fe3CC0264f501BfF075A8843aCe3F1d3'
-  // const metadataAddress = '0x865f2fF4897EFac5294E76209BB76f3F4730336f'
-  // return {
-  //   doaw: { address: doawAddress },
-  //   shadoaw: { address: shadoawAddress },
-  //   metadata: { address: metadataAddress }
-  // }
+  const metadataAddress = '0x5eb0b2d6d0bab9bae515d2cf310e070d49b307cf'
 
-  // deploy Metadata
-  const Metadata = await hre.ethers.getContractFactory('Metadata')
-  const metadata = await Metadata.deploy()
-  await metadata.deployed()
-  var metadataAddress = metadata.address
-  log('Metadata Deployed at ' + String(metadataAddress))
+  const doaw = { address: doawAddress }
+  const metadata = { address: metadataAddress }
 
-  // deploy DoAW
-  const DoAW = await ethers.getContractFactory('DoAW')
-  const doaw = await DoAW.deploy(metadataAddress, splitterAddress)
-  await doaw.deployed()
-  var doawAddress = doaw.address
-  log('DoAW Deployed at ' + String(doawAddress) + ` with metadata ${metadataAddress} and splitter ${splitterAddress}`)
+  // // deploy Metadata
+  // const Metadata = await hre.ethers.getContractFactory('Metadata')
+  // const metadata = await Metadata.deploy()
+  // await metadata.deployed()
+  // var metadataAddress = metadata.address
+  // log('Metadata Deployed at ' + String(metadataAddress))
+
+  // // deploy DoAW
+  // const DoAW = await ethers.getContractFactory('DoAW')
+  // const doaw = await DoAW.deploy(metadataAddress, splitterAddress)
+  // await doaw.deployed()
+  // var doawAddress = doaw.address
+  // log('DoAW Deployed at ' + String(doawAddress) + ` with metadata ${metadataAddress} and splitter ${splitterAddress}`)
 
 
   // deploy shaDoAW
@@ -114,27 +112,27 @@ const deployContracts = async () => {
       await shadoaw.deployTransaction.wait(blocksToWaitBeforeVerify)
     }
 
-    log('Verifying Metadata Contract')
-    try {
-      await hre.run('verify:verify', {
-        address: metadataAddress,
-        constructorArguments: [],
-      })
-    } catch (e) {
-      log({ e })
-    }
+    // log('Verifying Metadata Contract')
+    // try {
+    //   await hre.run('verify:verify', {
+    //     address: metadataAddress,
+    //     constructorArguments: [],
+    //   })
+    // } catch (e) {
+    //   log({ e })
+    // }
 
-    // log(`Waiting for ${blocksToWaitBeforeVerify} blocks before verifying`)
-    await doaw.deployTransaction.wait(blocksToWaitBeforeVerify)
-    log('Verifying DoAW Contract')
-    try {
-      await hre.run('verify:verify', {
-        address: doawAddress,
-        constructorArguments: [metadataAddress, splitterAddress],
-      })
-    } catch (e) {
-      log({ e })
-    }
+    // // log(`Waiting for ${blocksToWaitBeforeVerify} blocks before verifying`)
+    // await doaw.deployTransaction.wait(blocksToWaitBeforeVerify)
+    // log('Verifying DoAW Contract')
+    // try {
+    //   await hre.run('verify:verify', {
+    //     address: doawAddress,
+    //     constructorArguments: [metadataAddress, splitterAddress],
+    //   })
+    // } catch (e) {
+    //   log({ e })
+    // }
 
 
     // log(`Waiting for ${blocksToWaitBeforeVerify} blocks before verifying`)

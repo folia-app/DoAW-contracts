@@ -13,7 +13,7 @@ contract Metadata is Ownable {
     constructor() {}
 
     string public baseURI = "https://doaw.folia.app/v1/metadata/";
-    string public secondBasURI = "https://doaw-shadoaw.folia.app/v1/metadata/";
+    string public secondBasURI = "ipfs://";
 
     /// @dev sets the baseURI can only be called by the owner
     /// @param baseURI_ the new baseURI
