@@ -38,7 +38,7 @@ Presented by Folia.app
 contract shaDoAW is ERC721AQueryable, Ownable {
     address public metadata;
 
-    constructor(address metadata_) ERC721A("shaDoaW", "shaDoAW") {
+    constructor(address metadata_) ERC721A("shaDoAW", "shaDoAW") {
         metadata = metadata_;
     }
 
