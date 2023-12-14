@@ -8,12 +8,12 @@ async function main() {
 
   // save wallets to wallets.json
   const savePath = path.join(__dirname, '..', 'wallets.json')
-  const shaDoAWDir = path.join(__dirname, '..', 'shaDoAW')
+  // const shaDoAWDir = path.join(__dirname, '..', 'shaDoAW')
 
   // Delete the directory if it exists
-  await fs.remove(shaDoAWDir)
+  // await fs.remove(shaDoAWDir)
   // Recreate the directory
-  await fs.ensureDir(shaDoAWDir)
+  // await fs.ensureDir(shaDoAWDir)
 
   // Rest of the code...
   // read file
@@ -28,11 +28,24 @@ async function main() {
     }
     const metadata = JSON.parse(JSON.stringify(shaDoAWMetadataTemplate))
     metadata.name += wallet.words.toUpperCase()
-    const filename = path.join(shaDoAWDir, (i + 1) + '.json')
-    await fs.writeFile(filename, JSON.stringify(metadata, null, 2))
+    // const filename = path.join(shaDoAWDir, (i + 1).toString())
+    // await fs.writeFile(filename, JSON.stringify(metadata, null, 2))
   }
   console.log({ recipients: recipients.length })
-  // await shadoaw.adminMint(recipients)
+  const chunk = 51
+  const chunks = []
+  for (let i = 0; i < recipients.length; i += chunk) {
+    const ch = recipients.slice(i, i + chunk)
+    chunks.push(ch)
+  }
+  console.log(chunks.length)
+  for (let i = 0; i < chunks.length; i++) {
+    const ch = chunks[i]
+    console.log(`minting ${ch.length} tokens`)
+    const tx = await shadoaw.adminMint(ch)
+    console.log({ tx })
+    await tx.wait()
+  }
   console.log('Minted')
 }
 

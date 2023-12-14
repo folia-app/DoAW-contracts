@@ -63,12 +63,12 @@ module.exports = {
       // url: 'https://sepolia.infura.io/v3/' + process.env.INFURA_API_KEY,
       url: 'https://rpc.sepolia.org',
       accounts: { mnemonic: process.env.deploymentKey },
-      gasPrice: 150_000_000_000, // 150 GWEI
+      gasPrice: 15_000_000_000, // 15 GWEI
     },
     mainnet: {
       url: 'https://mainnet.infura.io/v3/' + process.env.INFURA_API_KEY,
       accounts: { mnemonic: process.env.deploymentKey },
-      gasPrice: 30_000_000_000,
+      gasPrice: 40_000_000_000,
     },
   },
   gasReporter: {

@@ -24,6 +24,10 @@ async function main() {
         //   hex: '2e204a6f616e204865656d736b65726b', // . Joan Heemskerk
         // },
         // {
+        //   words: 'ice sphere slim upon jazz now predict uncle hard inflict symptom song',
+        //   hex: '703a2f2f7777772e6a6f64692e6f7267', // p://www.jodi.org
+        // },
+        // {
         //   words: 'atom orbit quantum gravity engine bracket dynamic volume inflict average angle cycle',
         //   hex: '0e537ebd3304a6359137ae7361f8231b',
         // },
@@ -50,10 +54,6 @@ async function main() {
         // {
         //   words: 'deny ten link ice lift web first virus letter surface burst target',
         //   hex: '3abbde08381817f195dfa4809b447b6e',
-        // },
-        // {
-        //   words: 'wear outdoor february syrup hungry depth coconut document total gloom tide audit',
-        //   hex: 'f873a5516e56f4764b3a03e5cc6f8707',
         // },
         // {
         //   words: 'tackle shoulder pumpkin sustain tired inside virtual captain gown quantum fun boss',
@@ -127,18 +127,18 @@ async function main() {
         // {
         //   words: 'bus',
         // },
-        // {
-        //   words: 'awesome',
-        // },
-        // {
-        //   words: 'audit',
-        // },
-        // {
-        //   words: 'announce',
-        // },
-        // {
-        //   words: 'all',
-        // },
+        // // {
+        // //   words: 'awesome',
+        // // },
+        // // {
+        // //   words: 'audit',
+        // // },
+        // // {
+        // //   words: 'announce',
+        // // },
+        // // {
+        // //   words: 'all',
+        // // },
       ]
     },
     {
@@ -175,15 +175,15 @@ async function main() {
         // {
         //   words: 'obvious',
         // },
-        // {
-        //   words: 'exercise',
-        // },
-        // {
-        //   words: 'valid',
-        // },
-        // {
-        //   words: 'real',
-        // }
+        // // {
+        // //   words: 'exercise',
+        // // },
+        // // {
+        // //   words: 'valid',
+        // // },
+        // // {
+        // //   words: 'real',
+        // // }
       ]
     },
     {
@@ -226,13 +226,13 @@ async function main() {
   ]
 
   const shouldBe = {
-    'joan': 0,//21,
-    'dan': 40,
+    'joan': 0,
+    'dan': 30,
     'ev': 0,
     'billy': 0,
   }
 
-  let nonce = 174
+  let nonce = 565
 
   for (let i = 0; i < premints.length; i++) {
     const premint = premints[i]
